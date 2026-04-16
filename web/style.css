@@ -367,3 +367,28 @@ footer {
     color: var(--text-secondary);
     font-size: 0.85rem;
 }
+.download-link-container {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    animation: slideUp 0.3s ease-out;
+}
+
+.manual-download-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+    color: white !important;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    transition: all 0.3s ease;
+}
+
+.manual-download-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+    filter: brightness(1.1);
+}

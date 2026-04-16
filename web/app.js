@@ -121,6 +121,10 @@ convertBtn.onclick = async (e) => {
     e.stopPropagation(); // Prevent triggering the drop-zone file picker
     if (!isEngineReady || !selectedFile) return;
 
+    // Clear previous manual download links
+    const linkContainer = document.getElementById('download-link-container');
+    if (linkContainer) linkContainer.innerHTML = '';
+
     const btnText = convertBtn.querySelector('.btn-text');
     const loader = convertBtn.querySelector('.loader');
     
@@ -188,8 +192,25 @@ res_msg
                         now.getSeconds().toString().padStart(2, '0');
                         
         const downloadName = `videobox_backup_hystory_converted_${dateStr}_${timeStr}.json`;
+        
+        // Automatic download attempt
         downloadFile(outputData, downloadName, "application/json");
-        log("Conversion successful! Download started.", "success");
+
+        // Create Manual Download Link for Telegram/Mobile fallback
+        const blob = new Blob([outputData], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const linkContainer = document.getElementById('download-link-container');
+        if (linkContainer) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = downloadName;
+            a.className = 'manual-download-link';
+            a.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg> Download Converted JSON (Manual)`;
+            linkContainer.appendChild(a);
+        }
+
+        log("Conversion successful! Automatic download attempted.", "success");
+        log("If the file didn't download automatically, use the Manual Link above.", "info");
 
     } catch (err) {
         log(`Error during conversion: ${err.message}`, "error");
