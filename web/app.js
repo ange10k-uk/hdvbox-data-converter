@@ -26,6 +26,7 @@ async function initPyodide() {
         pyodide = await loadPyodide();
         
         log("Loading standard modules...");
+        await pyodide.loadPackage("sqlite3");
         
         // Fetch converter.py content
         log("Injecting converter logic...");
