@@ -196,21 +196,23 @@ res_msg
         // Automatic download attempt
         downloadFile(outputData, downloadName, "application/json");
 
-        // Create Manual Download Link for Telegram/Mobile fallback
-        const blob = new Blob([outputData], { type: "application/json" });
-        const url = URL.createObjectURL(blob);
+        // Create Manual Download Link (Base64 Fallback for Telegram/Mobile)
+        // We use btoa(unescape(encodeURIComponent())) to safely handle UTF-8 characters
+        const base64Data = btoa(unescape(encodeURIComponent(outputData)));
+        const dataUri = `data:application/json;charset=utf-8;base64,${base64Data}`;
+        
         const linkContainer = document.getElementById('download-link-container');
         if (linkContainer) {
             const a = document.createElement('a');
-            a.href = url;
+            a.href = dataUri;
             a.download = downloadName;
             a.className = 'manual-download-link';
-            a.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg> Download Converted JSON (Manual)`;
+            a.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg> Download Converted JSON (Manual Link)`;
             linkContainer.appendChild(a);
         }
 
         log("Conversion successful! Automatic download attempted.", "success");
-        log("If the file didn't download automatically, use the Manual Link above.", "info");
+        log("If the file didn't download, use the 'Manual Link' button above.", "info");
 
     } catch (err) {
         log(`Error during conversion: ${err.message}`, "error");
