@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HDVBox Online Data Converter</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+</head>
+<body>
+    <div class="blob-bg"></div>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <h1>HDVBox<span>Data Converter</span></h1>
+            </div>
+            <a href="https://t.me/hdvideoboxalfa" target="_blank" class="tg-link">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.11.02-1.93 1.23-5.46 3.62-.51.35-.98.53-1.39.52-.45-.01-1.33-.26-1.98-.47-.8-.26-1.43-.4-1.37-.84.03-.23.35-.46.95-.69 3.72-1.62 6.19-2.69 7.42-3.21 3.52-1.48 4.25-1.74 4.73-1.75.11 0 .34.03.5.16.12.1.16.23.18.36.01.07.03.22.02.37z"/></svg>
+                Join Telegram
+            </a>
+        </header>
+
+        <main>
+            <section class="hero">
+                <p>Convert your HDAlfaBox databases (.sqlite3, .fsdb) to JSON entirely in your browser. <strong>Private & Secure.</strong></p>
+            </section>
+
+            <div class="converter-card" id="drop-zone">
+                <div class="upload-area">
+                    <div class="icon-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                    </div>
+                    <h2>Drag & Drop Database</h2>
+                    <p>or click to browse your files</p>
+                    <input type="file" id="file-input" accept=".sqlite3,.sqlite,.db,.fsdb" hidden>
+                    <div id="file-name" class="file-name-hint"></div>
+                </div>
+
+                <div class="config-pane">
+                    <div class="options-group">
+                        <h3>Configuration</h3>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" id="pretty-print" checked>
+                            <span class="checkmark"></span>
+                            Pretty Print JSON
+                        </label>
+                    </div>
+
+                    <div class="options-group">
+                        <h3>Export Sections</h3>
+                        <div class="segments-grid">
+                            <label class="custom-checkbox">
+                                <input type="checkbox" name="sections" value="favorites" checked>
+                                <span class="checkmark"></span>
+                                Favorites (Bookmarks)
+                            </label>
+                            <label class="custom-checkbox">
+                                <input type="checkbox" name="sections" value="forlater" checked>
+                                <span class="checkmark"></span>
+                                ForLater
+                            </label>
+                            <label class="custom-checkbox">
+                                <input type="checkbox" name="sections" value="finished" checked>
+                                <span class="checkmark"></span>
+                                Finished
+                            </label>
+                            <label class="custom-checkbox">
+                                <input type="checkbox" name="sections" value="inprocess" checked>
+                                <span class="checkmark"></span>
+                                In Process
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="convert-btn" disabled>
+                    <span class="btn-text">START EXPORT</span>
+                    <div class="loader"></div>
+                </button>
+            </div>
+
+            <section class="status-box">
+                <div class="status-header">
+                    <span>Runtime Engine Status:</span>
+                    <span id="engine-status" class="status-indicator">Initializng...</span>
+                </div>
+                <div id="log-box" class="log-area">
+                    <div>Waiting for engine to load...</div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Built for Zaka-Zaka &bull; Supported HDAlfaBox &ge; v1.0.0</p>
+        </footer>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
