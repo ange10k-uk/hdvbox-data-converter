@@ -169,6 +169,11 @@ res_msg
         downloadFile(outputData, "export.json", "application/json");
         log("Conversion successful! Download started.", "success");
 
+        // Disable file upload click after converting as requested
+        dropZone.onclick = null;
+        dropZone.style.cursor = 'default';
+        log("Upload area disabled. Please refresh page to process another file.", "info");
+
     } catch (err) {
         log(`Error during conversion: ${err.message}`, "error");
     } finally {

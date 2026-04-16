@@ -333,7 +333,7 @@ def normalize_section_filter(selected_sections):
     return [SECTION_FILTERS[s] for s in lowered]
 
 
-def export_bookmarks(conn, items_by_id, filmids_by_video, section_filters):
+def export_bookmarks(conn, items_by_id, filmids_by_video, section_filters, use_prefixes=False):
     bookmarks = []
     seen_ids = set()
 
@@ -360,7 +360,8 @@ def export_bookmarks(conn, items_by_id, filmids_by_video, section_filters):
             filmids_row = filmids_by_video.get(video_id)
 
             obj = make_base_item(item, filmids_row)
-            obj["title"] = format_title_with_prefix(obj["title"], obj["source"])
+            if use_prefixes:
+                obj["title"] = format_title_with_prefix(obj["title"], obj["source"])
             obj["addedAt"] = extract_bookmark_created_at(row)
 
             obj_id = obj["id"]
@@ -492,7 +493,7 @@ def export_history(conn, items_by_id, filmids_by_video):
     return history
 
 
-def process_export(db_path_str, out_path_str, pretty=False, favorites_section=None):
+def process_export(db_path_str, out_path_str, pretty=False, favorites_section=None, use_prefixes=False):
     if favorites_section is None:
         favorites_section = ["all"]
 
@@ -521,7 +522,7 @@ def process_export(db_path_str, out_path_str, pretty=False, favorites_section=No
     payload = {
         "version": 1,
         "timestamp": int(time.time() * 1000),
-        "bookmarks": export_bookmarks(conn, items_by_id, filmids_by_video, section_filters),
+        "bookmarks": export_bookmarks(conn, items_by_id, filmids_by_video, section_filters, use_prefixes),
         "history": export_history(conn, items_by_id, filmids_by_video),
     }
 
@@ -542,6 +543,8 @@ def main():
     parser.add_argument("input_db", help="Path to input sqlite database")
     parser.add_argument("output_json", help="Path to output json file")
     parser.add_argument("--pretty", action="store_true", help="Pretty-print JSON")
+    parser.add_argument("--use-prefixes", action="store_true", help="Add source prefixes to bookmark titles")
+
     parser.add_argument(
         "--favorites-section",
         "--favourites-section",
@@ -557,7 +560,8 @@ def main():
             args.input_db, 
             args.output_json, 
             pretty=args.pretty, 
-            favorites_section=args.favorites_section
+            favorites_section=args.favorites_section,
+            use_prefixes=args.use_prefixes
         )
         print(msg)
     except Exception as e:
