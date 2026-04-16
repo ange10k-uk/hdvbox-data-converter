@@ -75,7 +75,16 @@ function updateButtonState() {
 }
 
 // File Handlers
-dropZone.onclick = () => fileInput.click();
+// Prevent clicks on the config area from triggering the file picker
+document.querySelectorAll('.config-pane').forEach(el => {
+    el.onclick = (e) => e.stopPropagation();
+});
+
+dropZone.onclick = () => {
+    if (!convertBtn.disabled || engineStatus.textContent === "Ready") {
+        fileInput.click();
+    }
+};
 
 dropZone.ondragover = (e) => {
     e.preventDefault();
@@ -108,7 +117,8 @@ function handleFile(file) {
 }
 
 // Conversion Logic
-convertBtn.onclick = async () => {
+convertBtn.onclick = async (e) => {
+    e.stopPropagation(); // Prevent triggering the drop-zone file picker
     if (!isEngineReady || !selectedFile) return;
 
     const btnText = convertBtn.querySelector('.btn-text');
@@ -122,6 +132,7 @@ convertBtn.onclick = async () => {
 
         // Get options
         const pretty = document.getElementById('pretty-print').checked;
+        const usePrefixes = document.getElementById('use-prefixes').checked;
         const sectionEls = Array.from(document.querySelectorAll('input[name="sections"]:checked'));
         const sections = sectionEls.map(c => c.value);
         
@@ -147,6 +158,7 @@ convertBtn.onclick = async () => {
         pyodide.globals.set("in_path", inPath);
         pyodide.globals.set("out_path", outPath);
         pyodide.globals.set("is_pretty", pretty);
+        pyodide.globals.set("use_prefixes", usePrefixes);
         pyodide.globals.set("fav_sections", pyodide.toPy(finalSections));
 
         const pythonCode = `
@@ -154,7 +166,8 @@ res_msg = process_export(
     db_path_str=in_path,
     out_path_str=out_path,
     pretty=is_pretty,
-    favorites_section=fav_sections
+    favorites_section=fav_sections,
+    use_prefixes=use_prefixes
 )
 res_msg
         `;
@@ -166,13 +179,17 @@ res_msg
         const outputData = pyodide.FS.readFile(outPath, { encoding: "utf8" });
         
         // Download trigger
-        downloadFile(outputData, "export.json", "application/json");
+        const now = new Date();
+        const dateStr = now.getFullYear().toString() + 
+                        (now.getMonth() + 1).toString().padStart(2, '0') + 
+                        now.getDate().toString().padStart(2, '0');
+        const timeStr = now.getHours().toString().padStart(2, '0') + "-" + 
+                        now.getMinutes().toString().padStart(2, '0') + "-" + 
+                        now.getSeconds().toString().padStart(2, '0');
+                        
+        const downloadName = `videobox_backup_hystory_converted_${dateStr}_${timeStr}.json`;
+        downloadFile(outputData, downloadName, "application/json");
         log("Conversion successful! Download started.", "success");
-
-        // Disable file upload click after converting as requested
-        dropZone.onclick = null;
-        dropZone.style.cursor = 'default';
-        log("Upload area disabled. Please refresh page to process another file.", "info");
 
     } catch (err) {
         log(`Error during conversion: ${err.message}`, "error");

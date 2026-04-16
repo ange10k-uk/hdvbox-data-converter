@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
     <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
 </head>
 
@@ -30,8 +31,8 @@
 
         <main>
             <section class="hero">
-                <p>Convert your HDAlfaBox databases (db_backup.fsdb) to JSON entirely in your browser. <strong>Private
-                        & Secure.</strong></p>
+                <p>Convert your HDAlfaBox databases (db_backup.fsdb) to JSON format for HDAlfaBox >= v1.0.0 in your
+                    browser. <strong>Private & Secure.</strong></p>
             </section>
 
             <div class="converter-card" id="drop-zone">
@@ -55,30 +56,35 @@
                             <span class="checkmark"></span>
                             Pretty Print JSON
                         </label>
+                        <label class="custom-checkbox" style="display: none;">
+                            <input type="checkbox" id="use-prefixes">
+                            <span class="checkmark"></span>
+                            Add source prefixes (e.g., [H], [F])
+                        </label>
                     </div>
 
                     <div class="options-group">
-                        <h3>Export Sections</h3>
+                        <h3>Export Sections (Экспорт разделов Закладки)</h3>
                         <div class="segments-grid">
                             <label class="custom-checkbox">
                                 <input type="checkbox" name="sections" value="favorites" checked>
                                 <span class="checkmark"></span>
-                                Favorites (Bookmarks)
+                                Favorites (Избранное)
                             </label>
                             <label class="custom-checkbox">
                                 <input type="checkbox" name="sections" value="forlater" checked>
                                 <span class="checkmark"></span>
-                                ForLater
+                                ForLater (На будущее)
                             </label>
                             <label class="custom-checkbox">
                                 <input type="checkbox" name="sections" value="finished" checked>
                                 <span class="checkmark"></span>
-                                Finished
+                                Finished (Завершенное)
                             </label>
                             <label class="custom-checkbox">
                                 <input type="checkbox" name="sections" value="inprocess" checked>
                                 <span class="checkmark"></span>
-                                In Process
+                                In Process (В процессе)
                             </label>
                         </div>
                     </div>
@@ -102,7 +108,7 @@
         </main>
 
         <footer>
-            <p>Built for Zaka-Zaka &bull; Supported HDAlfaBox &ge; v1.0.0</p>
+            <p>Built for HDAlfaBox &bull; Supported HDAlfaBox &ge; v1.0.0</p>
         </footer>
     </div>
     <script src="app.js"></script>
