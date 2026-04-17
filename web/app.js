@@ -52,7 +52,7 @@ async function initPyodide() {
         }
 
         if (!script) {
-            throw new Error("Could not load converter.py. If running locally, please use a web server (e.g., 'python -m http.server').");
+            throw new Error("Could not load converter.py. Please run 'run_web_app.bat' to start the local server and visit http://localhost:8000/web/");
         }
 
         pyodide.runPython(script);
