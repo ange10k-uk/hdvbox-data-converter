@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HDVBox Online Data Converter</title>
+    <title data-i18n="page-title">HDVBox Online Data Converter</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,21 +18,30 @@
     <div class="container">
         <header>
             <div class="logo">
-                <h1>HDVBox<span>Data Converter by UKay</span></h1>
+                <h1 data-i18n="logo-title">HDVBox<span data-i18n="logo-subtitle">Data Converter by UKay</span></h1>
             </div>
-            <a href="https://t.me/hdvideoboxalfa" target="_blank" class="tg-link">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path
-                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.11.02-1.93 1.23-5.46 3.62-.51.35-.98.53-1.39.52-.45-.01-1.33-.26-1.98-.47-.8-.26-1.43-.4-1.37-.84.03-.23.35-.46.95-.69 3.72-1.62 6.19-2.69 7.42-3.21 3.52-1.48 4.25-1.74 4.73-1.75.11 0 .34.03.5.16.12.1.16.23.18.36.01.07.03.22.02.37z" />
-                </svg>
-                Join Telegram
-            </a>
+            <div class="header-actions">
+                <div class="lang-switcher">
+                    <button id="lang-ru" class="active">RU</button>
+                    <span class="divider"></span>
+                    <button id="lang-en">EN</button>
+                </div>
+                <a href="https://t.me/hdvideoboxalfa" target="_blank" class="tg-link">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.11.02-1.93 1.23-5.46 3.62-.51.35-.98.53-1.39.52-.45-.01-1.33-.26-1.98-.47-.8-.26-1.43-.4-1.37-.84.03-.23.35-.46.95-.69 3.72-1.62 6.19-2.69 7.42-3.21 3.52-1.48 4.25-1.74 4.73-1.75.11 0 .34.03.5.16.12.1.16.23.18.36.01.07.03.22.02.37z" />
+                    </svg>
+                    <span data-i18n="tg-link">Join Telegram</span>
+                </a>
+            </div>
         </header>
 
         <main>
             <section class="hero">
-                <p>Convert your HDAlfaBox databases (db_backup.fsdb) to JSON format for HDAlfaBox >= v1.0.0 in your
-                    browser.</p>
+                <p data-i18n="hero-desc">Convert your HDVideoBox databases in fsbd format (db_backup.fsdb) to JSON
+                    format for HDAlfaBox >=
+                    v1.0.0 in your browser.</p>
+                <a href="#" id="help-btn" class="hero-help-link" data-i18n="instr-link">Инструкция</a>
             </section>
 
             <div class="converter-card" id="drop-zone">
@@ -42,77 +51,103 @@
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12" />
                         </svg>
                     </div>
-                    <h2>Drag & Drop Database</h2>
-                    <p>or click to browse your files</p>
+                    <h2 data-i18n="drop-title">Drag & Drop Database</h2>
+                    <p data-i18n="drop-hint">or click to browse your files</p>
                     <input type="file" id="file-input" accept=".fsdb" hidden>
                     <div id="file-name" class="file-name-hint"></div>
                 </div>
 
                 <div class="config-pane">
                     <div class="options-group">
-                        <h3>Configuration</h3>
+                        <h3 data-i18n="config-title">Configuration</h3>
                         <label class="custom-checkbox">
                             <input type="checkbox" id="pretty-print" checked>
                             <span class="checkmark"></span>
-                            Pretty Print JSON
+                            <span data-i18n="pretty-json">Pretty Print JSON</span>
                         </label>
                         <label class="custom-checkbox" style="display: none;">
                             <input type="checkbox" id="use-prefixes">
                             <span class="checkmark"></span>
-                            Add source prefixes (e.g., [H] - HDRezka, [F] - Filmix)
+                            <span data-i18n="prefixes-label">Add source prefixes (e.g., [H] - HDRezka, [F] -
+                                Filmix)</span>
                         </label>
                     </div>
 
                     <div class="options-group">
-                        <h3>Export Sections (Экспорт разделов Закладки)</h3>
+                        <h3 data-i18n="sections-title">Export Sections</h3>
                         <div class="segments-grid">
                             <label class="custom-checkbox">
                                 <input type="checkbox" name="sections" value="favorites" checked>
                                 <span class="checkmark"></span>
-                                Favorites (Избранное)
+                                <span data-i18n="section-fav">Favorites</span>
                             </label>
                             <label class="custom-checkbox">
                                 <input type="checkbox" name="sections" value="forlater" checked>
                                 <span class="checkmark"></span>
-                                ForLater (На будущее)
+                                <span data-i18n="section-later">ForLater</span>
                             </label>
                             <label class="custom-checkbox">
                                 <input type="checkbox" name="sections" value="finished" checked>
                                 <span class="checkmark"></span>
-                                Finished (Завершенное)
+                                <span data-i18n="section-done">Finished</span>
                             </label>
                             <label class="custom-checkbox">
                                 <input type="checkbox" name="sections" value="inprocess" checked>
                                 <span class="checkmark"></span>
-                                In Process (В процессе)
+                                <span data-i18n="section-process">In Process</span>
                             </label>
                         </div>
                     </div>
                 </div>
 
                 <button id="convert-btn" disabled>
-                    <span class="btn-text">START EXPORT</span>
+                    <span class="btn-text" data-i18n="btn-start">START EXPORT</span>
                     <div class="loader"></div>
                 </button>
             </div>
 
             <section class="status-box">
                 <div class="status-header">
-                    <span>Runtime Engine Status:</span>
-                    <span id="engine-status" class="status-indicator">Initializng...</span>
+                    <span data-i18n="engine-status">Runtime Engine Status:</span>
+                    <span id="engine-status" class="status-indicator" data-i18n="status-init">Initializing...</span>
                 </div>
                 <div id="log-box" class="log-area">
-                    <div>Waiting for engine to load...</div>
+                    <div data-i18n="log-wait">Waiting for engine to load...</div>
                 </div>
                 <div id="download-link-container" class="download-link-container"></div>
             </section>
+
         </main>
 
         <footer>
-            <p>Built for HDAlfaBox &bull; Supported HDAlfaBox &ge; v1.0.0</p>
-            <p><strong>Private & Secure.</strong></p>
+            <p data-i18n="footer-built">Built for HDAlfaBox &bull; Supported HDAlfaBox &ge; v1.0.0</p>
+            <p><strong data-i18n="footer-secure">Private & Secure.</strong></p>
         </footer>
     </div>
+
+    <!-- Instructions Modal -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="modal-container">
+            <button id="modal-close" class="modal-close">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 6L6 18M6 6l12 12"/>
+                </svg>
+            </button>
+            <section class="instructions-section">
+                <div class="instructions-header">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M12 16v-4M12 8h.01" />
+                    </svg>
+                    <h2 data-i18n="instr-title">How to Migrate</h2>
+                </div>
+                <div id="instructions-container">
+                    <!-- Dynamic instructions will lead here based on language -->
+                </div>
+            </section>
+        </div>
+    </div>
+
     <script src="app.js"></script>
 </body>
 
